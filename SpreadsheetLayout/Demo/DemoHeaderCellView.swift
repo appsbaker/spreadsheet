@@ -25,9 +25,8 @@ final class DemoHeaderCellView: UICollectionViewCell, PresentableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure<T>(with value: T) {}
-    func configure<T>(with value: T) where T == String {
-        textLabel.text = value
+    func configure(with value: Any) {
+        textLabel.text = "\(value)"
         textLabel.textColor = .red
         contentView.backgroundColor = .white
     }

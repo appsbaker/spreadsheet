@@ -8,9 +8,17 @@
 import UIKit
 import SnapKit
 
-/*
+
+public class StickyValue {
+    let title: String
+    let subtitle: String
+    init(title: String, subtitle: String) {
+        self.title = title
+        self.subtitle = subtitle
+    }
+}
+
 final class DemoStickyView: UICollectionViewCell, PresentableView {
-    private var avatarView = UIView(frame: .zero)
     private var titleLabel = UILabel(frame: .zero)
     private var subtitleLabel = UILabel(frame: .zero)
 
@@ -30,12 +38,14 @@ final class DemoStickyView: UICollectionViewCell, PresentableView {
         contentView.backgroundColor = .white
 
         contentView.addSubview(contentStackView)
-        titleLabel.font = .systemFont(ofSize: 15, weight: .bold)
-        subtitleLabel.font = .systemFont(ofSize: 12)
+        titleLabel.font = .systemFont(ofSize: 14)
+        subtitleLabel.font = .systemFont(ofSize: 10, weight: .bold)
+
+        subtitleLabel.textColor = .white
+        subtitleLabel.backgroundColor = .darkGray
 
         contentStackView.axis =  .horizontal
-        contentStackView.distribution = .fill
-        contentStackView.addArrangedSubview(avatarView)
+        contentStackView.distribution = .equalSpacing
         contentStackView.addArrangedSubview(titlesStackView)
 
         titlesStackView.axis = .vertical
@@ -45,13 +55,12 @@ final class DemoStickyView: UICollectionViewCell, PresentableView {
         contentStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-
-        avatarView.backgroundColor = .gray
-        avatarView.snp.makeConstraints {
-            $0.width.height.equalTo(16)
-        }
     }
 
-    func configure(with value: String) {}
+    func configure(with value: Any) {
+        if let value = value as? StickyValue {
+            titleLabel.text = value.title
+            subtitleLabel.text = value.subtitle
+        }
+    }
 }
-*/

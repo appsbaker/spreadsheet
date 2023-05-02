@@ -91,7 +91,7 @@ extension SpreadsheetView: UICollectionViewDataSource {
                 ofKind: Layout.SupplementaryKind.rowsSticky,
                 withReuseIdentifier: identifier,
                 for: indexPath)
-            (view as? any PresentableView)?.configure(with: "\(data.values[indexPath.section][0])")
+            (view as? any PresentableView)?.configure(with: data.values[indexPath.section][0])
             return view
 
         default:

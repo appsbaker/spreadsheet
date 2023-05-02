@@ -14,13 +14,15 @@ final class ViewController: UIViewController {
 
     private let datatable: SpreadsheetData = .init(datatable: [
         ["Акции",       "Цена",   "Страна бизнеса", "Сектор экономики"],
-        ["Сбербанк",     239.29,  "Россия",         "Финансы"],
-        ["Тинькоф Банк", 362.29,  "Россия",         "Финансы"],
-        ["Ozon",         1362.29, "Россия",         "IT"],
+        [StickyValue(title: "Сбербанк", subtitle: "SBER"),     239.29,  "Россия",         "Финансы"],
+        [StickyValue(title: "Тинькоф Банк", subtitle: "TNKF"), 362.29,  "Россия",         "Финансы"],
+        [StickyValue(title: "Ozon", subtitle: "OZN"),         1362.29, "Россия",         "IT"],
     ])
 
     private lazy var spreadsheetView = SpreadsheetView(
-        data: datatable
+        data: datatable,
+        presentableValueView: DemoValueCellView.self,
+        presentableStickyView: DemoStickyView.self
     )
 
     func setupViewAndConstraints() {
