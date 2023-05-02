@@ -57,6 +57,7 @@ extension SpreadsheetView {
 
                 section.boundarySupplementaryItems.append(sticky)
                 section.orthogonalScrollingBehavior = config.orthogonalScrollingBehavior
+                section.contentInsets = config.contentInsets
                 return section
             }
             return layout

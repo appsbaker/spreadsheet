@@ -13,16 +13,17 @@ final class ViewController: UIViewController {
     private var actionButton = UIButton(configuration: .filled())
 
     private let datatable: SpreadsheetData = .init(datatable: [
-        ["Акции",       "Цена",   "Страна бизнеса", "Сектор экономики"],
-        [StickyValue(title: "Сбербанк", subtitle: "SBER"),     239.29,  "Россия",         "Финансы"],
-        [StickyValue(title: "Тинькоф Банк", subtitle: "TNKF"), 362.29,  "Россия",         "Финансы"],
-        [StickyValue(title: "Ozon", subtitle: "OZN"),         1362.29, "Россия",         "IT"],
+        ["Акции",    "Цена",  "Изменение", "Страна бизнеса", "Сектор экономики"],
+        ["Сбербанк", 239.29,  120.456,     "Россия",         "Финансы"],
+        ["Тинькоф",  362.29,  32.10,       "Россия",         "Финансы"],
+        ["Ozon",     1362.29, -12.30,      "Россия",         "IT"],
     ])
 
     private lazy var spreadsheetView = SpreadsheetView(
         data: datatable,
-        presentableValueView: DemoValueCellView.self,
-        presentableStickyView: DemoStickyView.self
+        layoutConfiguration: .init(
+            contentInsets: .init(top: 0, leading: 0, bottom: 8, trailing: 8)
+        )
     )
 
     func setupViewAndConstraints() {

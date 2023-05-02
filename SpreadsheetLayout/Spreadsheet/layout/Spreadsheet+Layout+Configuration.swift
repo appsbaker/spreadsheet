@@ -19,5 +19,6 @@ extension SpreadsheetView.Layout {
         var columnWidths: [CGFloat] = []
         var isStickableFirstColumn: Bool = true
         var orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior = .none
+        var contentInsets: NSDirectionalEdgeInsets = .zero
     }
 }

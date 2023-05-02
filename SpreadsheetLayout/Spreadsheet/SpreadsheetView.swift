@@ -109,4 +109,12 @@ final class SpreadsheetView: UIView {
             $0.leading.bottom.trailing.equalToSuperview()
         }
     }
+
+    func updateLayout(with data: SpreadsheetData) {
+        self.data = data
+        headerCollectionView.collectionViewLayout = layout.makeLayout(for: [data.headers],
+                                                 supplementaryKind: Layout.SupplementaryKind.headSticky)
+        valuesCollectionView.collectionViewLayout = layout.makeLayout(for: data.values,
+                                                 supplementaryKind: Layout.SupplementaryKind.rowsSticky)
+    }
 }
