@@ -21,8 +21,7 @@ final class ViewController: UIViewController {
     ])
 
     private lazy var spreadsheetView = SpreadsheetView(
-        data: datatable,
-        presentableStickyView: DemoStickyView.self
+        data: datatable
     )
 
     func setupViewAndConstraints() {
@@ -59,7 +58,10 @@ final class ViewController: UIViewController {
     }
 
     @objc func pressButton() {
-//        spreadsheetView.data.append(values: ["Сбербанк", Int.random(in: 1...100),  Int.random(in: 30...90), "Россия", "Финансы"])
-//        spreadsheetView.reloadValues()
+        for _ in 1...50 {
+            spreadsheetView.appendValues(values: ["Сбербанк", Int.random(in: 1...100),  Int.random(in: 30...90), "Россия", "Финансы"])
+        }
+        spreadsheetView.reloadValues()
+        titleLabel.text = "Spreadsheet.Items count: \(spreadsheetView.data.values.count)"
     }
 }

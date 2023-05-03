@@ -17,4 +17,8 @@ struct SpreadsheetData {
             self.values = datatable
         }
     }
+
+    mutating func append(value: [Any]) {
+        self.values.append(value)
+    }
 }

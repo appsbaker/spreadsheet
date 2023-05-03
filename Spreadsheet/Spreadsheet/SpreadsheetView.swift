@@ -118,4 +118,15 @@ final class SpreadsheetView: UIView {
         valuesCollectionView.collectionViewLayout = layout.makeLayout(for: data.values,
                                                  supplementaryKind: Layout.SupplementaryKind.rowsSticky)
     }
+
+    func appendValues(values: [Any]) {
+        self.data.append(value: values)
+    }
+
+    func reloadValues() {
+        valuesCollectionView.collectionViewLayout = layout.makeLayout(
+            for: data.values,
+            supplementaryKind: Layout.SupplementaryKind.rowsSticky
+        )
+    }
 }
