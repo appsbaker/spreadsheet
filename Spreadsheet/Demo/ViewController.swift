@@ -10,8 +10,9 @@ import UIKit
 import SnapKit
 
 final class ViewController: UIViewController {
-    private var titleLabel = UILabel(frame: .zero)
-    private var actionButton = UIButton(configuration: .filled())
+    @IBOutlet var titleLabel: UILabel?
+    @IBOutlet var subtitleLabel: UILabel?
+    @IBOutlet var spreadsheetView: SpreadsheetView?
 
     private var datatable: SpreadsheetData = .init(datatable: [
         ["Акции",    "Цена",  "Изменение", "Страна бизнеса", "Сектор экономики"],
@@ -20,48 +21,37 @@ final class ViewController: UIViewController {
         ["Ozon",     1362.29, -12.30,      "Россия",         "IT"],
     ])
 
-    private lazy var spreadsheetView = SpreadsheetView(
-        data: datatable
-    )
-
-    func setupViewAndConstraints() {
-        view.addSubview(titleLabel)
-        view.addSubview(spreadsheetView)
-        view.addSubview(actionButton)
-
-        titleLabel.text = "Spreadsheet"
-        titleLabel.font = .systemFont(ofSize: 24)
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(96)
-            $0.leading.trailing.equalToSuperview().inset(8)
-        }
-
-        spreadsheetView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(18)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(actionButton.snp.top).inset(16)
-        }
-
-        actionButton.setTitle("Add Values", for: .normal)
-        actionButton.snp.makeConstraints {
-            $0.height.equalTo(54)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(32)
-        }
-
-        actionButton.addTarget(self, action: #selector(pressButton), for: .touchUpInside)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewAndConstraints()
+        spreadsheetView?.delegate = self
+        spreadsheetView?.updateLayout(with: datatable)
     }
 
-    @objc func pressButton() {
+    @IBAction func addItems() {
         for _ in 1...50 {
-            spreadsheetView.appendValues(values: ["Сбербанк", Int.random(in: 1...100),  Int.random(in: 30...90), "Россия", "Финансы"])
+            spreadsheetView?.appendValues(values: ["Сбербанк", Int.random(in: 1...100),  Int.random(in: 30...90), "Россия", "Финансы"])
         }
-        spreadsheetView.reloadValues()
-        titleLabel.text = "Spreadsheet.Items count: \(spreadsheetView.data.values.count)"
+        spreadsheetView?.reloadValues()
+        subtitleLabel?.text = "Items count: \(spreadsheetView?.data.values.count ?? 0)"
+    }
+
+    @IBAction func clean() {
+        spreadsheetView?.removeAllValues()
+        spreadsheetView?.reloadValues()
+    }
+}
+
+
+extension ViewController: SpreadsheetDelegate {
+    func spreadsheetDidScroll(_ scrollView: UIScrollView) {
+        subtitleLabel?.text  = "scrollView.contentOffset: \(scrollView.contentOffset)"
+    }
+
+    func spreadsheet(didSelectValueItemAt indexPath: IndexPath, withValue: Any?) {
+        subtitleLabel?.text  = "Selected cell: at: \(indexPath) with: \(withValue)"
+    }
+
+    func spreadsheet(didSelectHeaderItemAtColumn index: Int, withValue: Any?) {
+        subtitleLabel?.text  = "Selected header: at: \(index) with: \(withValue)"
     }
 }

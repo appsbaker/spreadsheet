@@ -19,6 +19,10 @@ struct SpreadsheetData {
     }
 
     mutating func append(value: [Any]) {
-        self.values.append(value)
+        values.append(value)
+    }
+
+    mutating func removeAll() {
+        values.removeAll()
     }
 }

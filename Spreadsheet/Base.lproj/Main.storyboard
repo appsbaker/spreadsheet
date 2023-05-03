@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -11,20 +12,86 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SpreadsheetLayout" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Spreadsheet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hEe-Xa-Eyl" customClass="SpreadsheetView" customModule="Spreadsheet" customModuleProvider="target">
+                                <rect key="frame" x="16" y="162.33333333333331" width="361" height="639.66666666666674"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Spreadsheet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXd-dj-01n">
+                                <rect key="frame" x="16" y="91" width="361" height="26.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="subtitle:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPK-8K-y1k">
+                                <rect key="frame" x="16" y="125.33333333333331" width="361" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bik-qn-K7g">
+                                <rect key="frame" x="174" y="758" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="8Lx-PP-wKO"/>
+                                    <constraint firstAttribute="height" constant="44" id="P5O-s1-4TI"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="trash" catalog="system"/>
+                                <connections>
+                                    <action selector="addItems" destination="BYZ-38-t0r" eventType="touchUpInside" id="mRQ-hS-uKQ"/>
+                                    <action selector="clean" destination="BYZ-38-t0r" eventType="touchUpInside" id="z2a-Ft-Xm0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cgp-gh-PtJ">
+                                <rect key="frame" x="16" y="758" width="150" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="DyH-e6-gHZ"/>
+                                    <constraint firstAttribute="height" constant="44" id="VqF-ff-YHp"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Add Elements"/>
+                                <connections>
+                                    <action selector="addItems" destination="BYZ-38-t0r" eventType="touchUpInside" id="67E-sl-ld9"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hEe-Xa-Eyl" secondAttribute="trailing" constant="16" id="1XW-2B-9HG"/>
+                            <constraint firstItem="aXd-dj-01n" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="7k1-af-sRW"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Cgp-gh-PtJ" secondAttribute="bottom" constant="16" id="Lpr-xY-gzr"/>
+                            <constraint firstItem="Cgp-gh-PtJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="U0e-6H-zsx"/>
+                            <constraint firstItem="hEe-Xa-Eyl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="YMV-37-7VR"/>
+                            <constraint firstItem="hEe-Xa-Eyl" firstAttribute="top" secondItem="aPK-8K-y1k" secondAttribute="bottom" constant="16" id="ZQv-Di-iwA"/>
+                            <constraint firstItem="Bik-qn-K7g" firstAttribute="leading" secondItem="Cgp-gh-PtJ" secondAttribute="trailing" constant="8" id="dhE-kd-4we"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hEe-Xa-Eyl" secondAttribute="bottom" constant="16" id="lOY-R7-iwi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aPK-8K-y1k" secondAttribute="trailing" constant="16" id="lbT-YB-TRk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aXd-dj-01n" secondAttribute="trailing" constant="16" id="n5y-cA-jJ8"/>
+                            <constraint firstItem="aPK-8K-y1k" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="pTT-YX-84P"/>
+                            <constraint firstItem="aXd-dj-01n" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="tIS-Rb-ULy"/>
+                            <constraint firstItem="aPK-8K-y1k" firstAttribute="top" secondItem="aXd-dj-01n" secondAttribute="bottom" constant="8" id="yoa-tu-ERq"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Bik-qn-K7g" secondAttribute="bottom" constant="16" id="zuC-as-j8O"/>
+                        </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <connections>
+                        <outlet property="spreadsheetView" destination="hEe-Xa-Eyl" id="9YK-BJ-qO9"/>
+                        <outlet property="subtitleLabel" destination="aPK-8K-y1k" id="tLG-kn-SH1"/>
+                        <outlet property="titleLabel" destination="aXd-dj-01n" id="EW9-ij-cZ8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="140" y="4"/>
+            <point key="canvasLocation" x="139.69465648854961" y="3.5211267605633805"/>
         </scene>
     </scenes>
     <resources>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

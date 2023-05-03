@@ -13,14 +13,32 @@ final class SpreadsheetView: UIView {
     private(set) var data: SpreadsheetData = .init(datatable: [])
     private let layout = Layout()
 
-    var headerCollectionView: UICollectionView!
-    var valuesCollectionView: UICollectionView!
+    private(set) var headerCollectionView: UICollectionView!
+    private(set) var valuesCollectionView: UICollectionView!
+    private(set) var presentableValueView: UICollectionViewCell.Type?
+    private(set) var presentableHeaderView: UICollectionViewCell.Type?
+    private(set) var presentableStickyView: UICollectionViewCell.Type?
 
-    var presentableValueView: UICollectionViewCell.Type?
-    var presentableHeaderView: UICollectionViewCell.Type?
-    var presentableStickyView: UICollectionViewCell.Type?
+    var floatingButton: UIButton = UIButton(frame: .zero)
 
     weak var delegate: SpreadsheetDelegate?
+
+    fileprivate func configureCollectionViews(_ data: SpreadsheetData) {
+        headerCollectionView = makeCollectionView(layout.makeLayout(
+            for: [data.headers],
+            supplementaryKind: Layout.SupplementaryKind.headSticky)
+        )
+
+        valuesCollectionView = makeCollectionView(layout.makeLayout(
+            for: data.values, supplementaryKind: Layout.SupplementaryKind.rowsSticky)
+        )
+    }
+
+    fileprivate func setup() {
+        setupActions()
+        configureCollectionViews(data)
+        setupViewAndConstraints()
+    }
 
     init(data: SpreadsheetData,
          layoutConfiguration: Layout.Configuration = .init(),
@@ -34,20 +52,26 @@ final class SpreadsheetView: UIView {
         self.presentableHeaderView = presentableHeaderView
         self.presentableStickyView = presentableStickyView
 
-        headerCollectionView = makeCollectionView(layout.makeLayout(
-            for: [data.headers],
-            supplementaryKind: Layout.SupplementaryKind.headSticky)
-        )
+        setup()
+    }
 
-        valuesCollectionView = makeCollectionView(layout.makeLayout(
-            for: data.values, supplementaryKind: Layout.SupplementaryKind.rowsSticky)
-        )
-        
-        setupViewAndConstraints()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setup()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        floatingButton.layer.cornerRadius = floatingButton.frame.width / 2
     }
 
     private func makeCollectionView(_ layout: UICollectionViewLayout) -> UICollectionView {
@@ -99,6 +123,7 @@ final class SpreadsheetView: UIView {
     private func setupViewAndConstraints() {
         addSubview(headerCollectionView)
         addSubview(valuesCollectionView)
+        addSubview(floatingButton)
 
         headerCollectionView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
@@ -109,6 +134,23 @@ final class SpreadsheetView: UIView {
             $0.top.equalTo(headerCollectionView.snp.bottom)
             $0.leading.bottom.trailing.equalToSuperview()
         }
+
+        floatingButton.isHidden = true
+        floatingButton.backgroundColor = .black
+        floatingButton.tintColor = .white
+        floatingButton.setImage(.init(systemName: "chevron.up"), for: .normal)
+        floatingButton.snp.makeConstraints {
+            $0.width.height.equalTo(40)
+            $0.bottom.right.equalToSuperview().inset(24)
+        }
+    }
+
+    private func setupActions() {
+        floatingButton.addAction(
+            UIAction { [weak self] _ in
+                self?.valuesCollectionView.scrollToItem(at: .init(item: 0, section: 0), at: .top, animated: true)
+            },
+            for: .touchUpInside)
     }
 
     func updateLayout(with data: SpreadsheetData) {
@@ -120,7 +162,11 @@ final class SpreadsheetView: UIView {
     }
 
     func appendValues(values: [Any]) {
-        self.data.append(value: values)
+        data.append(value: values)
+    }
+
+    func removeAllValues() {
+        data.removeAll()
     }
 
     func reloadValues() {

@@ -9,12 +9,69 @@
 import UIKit
 
 extension SpreadsheetView: UICollectionViewDataSource {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    fileprivate func getHeaderCellView(for indexPath: IndexPath) -> UICollectionViewCell {
+        if let presentableHeaderView {
+            let cell = valuesCollectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: presentableHeaderView.self), for: indexPath)
+            if indexPath.row > 0 {
+                (cell as? any PresentableView)?.configure(with: data.headers[indexPath.row])
+            }
+            return cell
+        } else {
+            let cell = valuesCollectionView.dequeueReusableCell(
+                withReuseIdentifier: SpreadsheetHeaderCellView.reusableIdentifier, for: indexPath)
+            if indexPath.row > 0 {
+                (cell as? any PresentableView)?.configure(with: data.headers[indexPath.row])
+            }
+            return cell
+        }
+    }
+
+    fileprivate func handleFlowButtonVisible(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > 300 {
+            if floatingButton.isHidden {
+                floatingButton.isHidden = false
+                floatingButton.isEnabled = true
+            }
+        } else {
+            if !floatingButton.isHidden {
+                floatingButton.isHidden = true
+                floatingButton.isEnabled = false
+            }
+        }
+    }
+
+    fileprivate func synchronizeHorizontalScrolls(_ scrollView: UIScrollView) {
         if scrollView == headerCollectionView {
             valuesCollectionView.contentOffset.x = scrollView.contentOffset.x
         } else if scrollView == valuesCollectionView {
             headerCollectionView.contentOffset.x = scrollView.contentOffset.x
+
         }
+    }
+
+    fileprivate func getValueCellView(for indexPath: IndexPath) -> UICollectionViewCell {
+        if let presentableValueView {
+            let cell = valuesCollectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: presentableValueView), for: indexPath)
+            (cell as? any PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
+            return cell
+        } else {
+            let cell = valuesCollectionView.dequeueReusableCell(
+                withReuseIdentifier: SpreadsheetCellView.reusableIdentifier, for: indexPath)
+            if indexPath.row > 0 {
+                (cell as? any PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
+            }
+            return cell
+        }
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        synchronizeHorizontalScrolls(scrollView)
+
+        guard scrollView == valuesCollectionView else { return }
+        delegate?.spreadsheetDidScroll(scrollView)
+        handleFlowButtonVisible(scrollView)
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -33,40 +90,6 @@ extension SpreadsheetView: UICollectionViewDataSource {
             return getHeaderCellView(for: indexPath)
         }
         return getValueCellView(for: indexPath)
-    }
-
-    private func getValueCellView(for indexPath: IndexPath) -> UICollectionViewCell {
-        if let presentableValueView {
-            let cell = valuesCollectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: presentableValueView), for: indexPath)
-            (cell as? any PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
-            return cell
-        } else {
-            let cell = valuesCollectionView.dequeueReusableCell(
-                withReuseIdentifier: SpreadsheetCellView.reusableIdentifier, for: indexPath)
-            if indexPath.row > 0 {
-                (cell as? any PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
-            }
-            return cell
-        }
-    }
-
-    private func getHeaderCellView(for indexPath: IndexPath) -> UICollectionViewCell {
-        if let presentableHeaderView {
-            let cell = valuesCollectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: presentableHeaderView.self), for: indexPath)
-            if indexPath.row > 0 {
-                (cell as? any PresentableView)?.configure(with: data.headers[indexPath.row])
-            }
-            return cell
-        } else {
-            let cell = valuesCollectionView.dequeueReusableCell(
-                withReuseIdentifier: SpreadsheetHeaderCellView.reusableIdentifier, for: indexPath)
-            if indexPath.row > 0 {
-                (cell as? any PresentableView)?.configure(with: data.headers[indexPath.row])
-            }
-            return cell
-        }
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -100,4 +123,3 @@ extension SpreadsheetView: UICollectionViewDataSource {
         }
     }
 }
-
