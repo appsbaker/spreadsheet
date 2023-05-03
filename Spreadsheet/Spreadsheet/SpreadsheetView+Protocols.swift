@@ -1,11 +1,10 @@
 //
+//  Spreadsheet
 //  SpreadsheetView+Protocols.swift
-//  SpreadsheetLayout
 //
-//  Created by Slava Anishchuk on 28.04.2023.
+//  Created by Slava Anishchuk
+//  Copyright © 2023 Slava Anishchuk. All rights reserved.
 //
-
-import UIKit
 
 protocol PresentableView {
     func configure(with value: Any)

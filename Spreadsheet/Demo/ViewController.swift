@@ -1,8 +1,9 @@
 //
+//  Spreadsheet
 //  ViewController.swift
-//  SpreadsheetLayout
 //
-//  Created by Slava Anishchuk on 26.04.2023.
+//  Created by Slava Anishchuk
+//  Copyright © 2023 Slava Anishchuk. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +13,7 @@ final class ViewController: UIViewController {
     private var titleLabel = UILabel(frame: .zero)
     private var actionButton = UIButton(configuration: .filled())
 
-    private let datatable: SpreadsheetData = .init(datatable: [
+    private var datatable: SpreadsheetData = .init(datatable: [
         ["Акции",    "Цена",  "Изменение", "Страна бизнеса", "Сектор экономики"],
         ["Сбербанк", 239.29,  120.456,     "Россия",         "Финансы"],
         ["Тинькоф",  362.29,  32.10,       "Россия",         "Финансы"],
@@ -21,9 +22,7 @@ final class ViewController: UIViewController {
 
     private lazy var spreadsheetView = SpreadsheetView(
         data: datatable,
-        layoutConfiguration: .init(
-            contentInsets: .init(top: 0, leading: 0, bottom: 8, trailing: 8)
-        )
+        presentableStickyView: DemoStickyView.self
     )
 
     func setupViewAndConstraints() {
@@ -50,10 +49,17 @@ final class ViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(32)
         }
+
+        actionButton.addTarget(self, action: #selector(pressButton), for: .touchUpInside)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewAndConstraints()
+    }
+
+    @objc func pressButton() {
+//        spreadsheetView.data.append(values: ["Сбербанк", Int.random(in: 1...100),  Int.random(in: 30...90), "Россия", "Финансы"])
+//        spreadsheetView.reloadValues()
     }
 }

@@ -1,15 +1,17 @@
 //
-//  CellView.swift
-//  SpreadsheetCellView
+//  Spreadsheet
+//  DemoHeaderCellView.swift
 //
-//  Created by Slava Anishchuk on 26.04.2023.
+//  Created by Slava Anishchuk
+//  Copyright © 2023 Slava Anishchuk. All rights reserved.
 //
 
 import UIKit
 import SnapKit
 
-final class SpreadsheetCellView: UICollectionViewCell, PresentableView {
-    static let reusableIdentifier: String = "spreadsheetCellViewID"
+final class DemoHeaderCellView: UICollectionViewCell, PresentableView {
+    typealias T = String
+
     var textLabel = UILabel(frame: .zero)
 
     override init(frame: CGRect) {
@@ -26,6 +28,7 @@ final class SpreadsheetCellView: UICollectionViewCell, PresentableView {
 
     func configure(with value: Any) {
         textLabel.text = "\(value)"
+        textLabel.textColor = .red
         contentView.backgroundColor = .white
     }
 }
