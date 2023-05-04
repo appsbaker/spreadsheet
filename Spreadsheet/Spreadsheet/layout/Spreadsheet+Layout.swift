@@ -20,10 +20,8 @@ extension SpreadsheetView {
                         supplementaryKind: String) -> UICollectionViewLayout {
             let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex: Int,
                                                                             layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-                guard let config = self?.config else {
-                    fatalError("Could not create layout")
-                }
-
+                guard let config = self?.config
+                else { fatalError("SpreadsheetView could not create layout") }
                 var groupWidth: CGFloat = 0
                 var items: [NSCollectionLayoutItem] = []
                 for (index, _) in values[sectionIndex].enumerated() {

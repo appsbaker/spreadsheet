@@ -28,10 +28,10 @@ final class SpreadsheetView: UIView {
             for: [data.headers],
             supplementaryKind: Layout.SupplementaryKind.headSticky)
         )
-
         valuesCollectionView = makeCollectionView(layout.makeLayout(
             for: data.values, supplementaryKind: Layout.SupplementaryKind.rowsSticky)
         )
+        registerViewCells()
     }
 
     fileprivate func setup() {
@@ -78,52 +78,44 @@ final class SpreadsheetView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
-
         collectionView.bounces = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-
-        // MARK: - HeaderCells
-        if let presentableHeaderView {
-            collectionView.register(presentableHeaderView,
-                                    forCellWithReuseIdentifier: String(describing: presentableHeaderView.self))
-        } else {
-            collectionView.register(SpreadsheetHeaderCellView.self,
-                                    forCellWithReuseIdentifier: SpreadsheetHeaderCellView.reusableIdentifier)
-        }
-
-        // MARK: - ValueCells
-        if let presentableValueView {
-            collectionView.register(presentableValueView,
-                                    forCellWithReuseIdentifier: String(describing: presentableValueView))
-        } else {
-            collectionView.register(SpreadsheetCellView.self,
-                                    forCellWithReuseIdentifier: SpreadsheetCellView.reusableIdentifier)
-        }
-
-        // MARK: - SupplementaryView
-        var headStickyId = Layout.SupplementaryKind.headSticky
-        if let presentableStickyView { headStickyId = String(describing: presentableStickyView.self) }
-        collectionView.register(SpreadsheetHeaderCellView.self,
-                                forSupplementaryViewOfKind: Layout.SupplementaryKind.headSticky,
-                                withReuseIdentifier: headStickyId)
-
-        if let presentableStickyView {
-            collectionView.register(presentableStickyView,
-                                    forSupplementaryViewOfKind: Layout.SupplementaryKind.rowsSticky,
-                                    withReuseIdentifier: String(describing: presentableStickyView.self))
-        } else {
-            collectionView.register(SpreadsheetStickyCellView.self,
-                                    forSupplementaryViewOfKind: Layout.SupplementaryKind.rowsSticky,
-                                    withReuseIdentifier: Layout.SupplementaryKind.rowsSticky)
-        }
         return collectionView
+    }
+
+    private func makeFlowButton() {
+        addSubview(floatingButton)
+        floatingButton.isHidden = true
+        floatingButton.backgroundColor = .black
+        floatingButton.tintColor = .white
+        floatingButton.setImage(.init(systemName: "chevron.up"), for: .normal)
+        floatingButton.snp.makeConstraints {
+            $0.width.height.equalTo(40)
+            $0.bottom.right.equalToSuperview().inset(24)
+        }
+    }
+
+    private func registerViewCells() {
+        let headerCellType: UICollectionViewCell.Type = presentableHeaderView ?? SpreadsheetHeaderCellView.self
+        headerCollectionView.register(headerCellType,
+                                      forCellWithReuseIdentifier: String(describing: headerCellType))
+        headerCollectionView.register(headerCellType,
+                                      forSupplementaryViewOfKind: Layout.SupplementaryKind.headSticky,
+                                      withReuseIdentifier: Layout.SupplementaryKind.headSticky)
+
+        let valueCellType = presentableValueView ?? SpreadsheetCellView.self
+        valuesCollectionView.register(valueCellType,
+                                      forCellWithReuseIdentifier: String(describing: valueCellType))
+        let valueStickyView = presentableStickyView ?? SpreadsheetStickyCellView.self
+        valuesCollectionView.register(valueStickyView,
+                                      forSupplementaryViewOfKind: Layout.SupplementaryKind.rowsSticky,
+                                      withReuseIdentifier: Layout.SupplementaryKind.rowsSticky)
     }
 
     private func setupViewAndConstraints() {
         addSubview(headerCollectionView)
         addSubview(valuesCollectionView)
-        addSubview(floatingButton)
 
         headerCollectionView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
@@ -135,14 +127,7 @@ final class SpreadsheetView: UIView {
             $0.leading.bottom.trailing.equalToSuperview()
         }
 
-        floatingButton.isHidden = true
-        floatingButton.backgroundColor = .black
-        floatingButton.tintColor = .white
-        floatingButton.setImage(.init(systemName: "chevron.up"), for: .normal)
-        floatingButton.snp.makeConstraints {
-            $0.width.height.equalTo(40)
-            $0.bottom.right.equalToSuperview().inset(24)
-        }
+        makeFlowButton()
     }
 
     private func setupActions() {

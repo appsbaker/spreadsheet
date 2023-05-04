@@ -10,10 +10,6 @@ import UIKit
 
 protocol SpreadsheetDelegate: AnyObject {
     func spreadsheetDidScroll(_ scrollView: UIScrollView)
-
-    func spreadsheet(didSelectValueItemAt indexPath: IndexPath,
-                     withValue: Any?)
-
-    func spreadsheet(didSelectHeaderItemAtColumn index: Int,
-                     withValue: Any?)
+    func spreadsheet(didSelectValueItemAt indexPath: IndexPath, withValue: Any?)
+    func spreadsheet(didSelectHeaderItemAtColumn index: Int, withValue: Any?)
 }

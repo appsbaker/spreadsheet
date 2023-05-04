@@ -15,7 +15,6 @@ final class DemoValueCellView: UICollectionViewCell, PresentableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(textLabel)
-        textLabel.font = .systemFont(ofSize: 15)
         textLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -27,6 +26,6 @@ final class DemoValueCellView: UICollectionViewCell, PresentableView {
 
     func configure(with value: Any) {
         textLabel.text = "\(value)"
-        textLabel.font = .systemFont(ofSize: 13)
+        textLabel.font = .systemFont(ofSize: 10)
     }
 }

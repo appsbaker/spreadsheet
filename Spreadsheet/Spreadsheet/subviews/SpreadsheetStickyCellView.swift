@@ -10,8 +10,8 @@ import UIKit
 import SnapKit
 
 final class SpreadsheetStickyCellView: UICollectionReusableView, PresentableView {
-    var stackView = UIStackView(frame: .zero)
-    var textLabel = UILabel(frame: .zero)
+    private var stackView = UIStackView(frame: .zero)
+    private var textLabel = UILabel(frame: .zero)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,7 +22,7 @@ final class SpreadsheetStickyCellView: UICollectionReusableView, PresentableView
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupViewAndConstraints() {
+    private func setupViewAndConstraints() {
         addSubview(stackView)
         backgroundColor = .white
         stackView.snp.makeConstraints {

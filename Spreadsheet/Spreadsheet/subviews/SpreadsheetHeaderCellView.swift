@@ -10,23 +10,27 @@ import UIKit
 import SnapKit
 
 final class SpreadsheetHeaderCellView: UICollectionViewCell, PresentableView {
-    static let reusableIdentifier: String = "spreadsheetHeaderCellView"
+    private var textLabel = UILabel(frame: .zero)
 
-    func setContent(view: UIView) {
-        contentView.addSubview(view)
-        view.snp.makeConstraints {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViewAndConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupViewAndConstraints() {
+        contentView.addSubview(textLabel)
+        contentView.backgroundColor = .white
+        textLabel.font = .systemFont(ofSize: 12, weight: .bold)
+        textLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
 
     func configure(with value: Any) {
-        let textLabel = UILabel(frame: .zero)
         textLabel.text = "\(value)"
-        contentView.addSubview(textLabel)
-        contentView.backgroundColor = .white
-        textLabel.font = .systemFont(ofSize: 14, weight: .semibold)
-        textLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
     }
 }

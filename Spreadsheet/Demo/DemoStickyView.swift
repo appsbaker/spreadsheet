@@ -62,6 +62,8 @@ final class DemoStickyView: UICollectionViewCell, PresentableView {
         if let value = value as? StickyValue {
             titleLabel.text = value.title
             subtitleLabel.text = value.subtitle
+        } else {
+            titleLabel.text = "\(value)"
         }
     }
 }

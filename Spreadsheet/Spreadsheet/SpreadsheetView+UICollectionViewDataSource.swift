@@ -9,24 +9,6 @@
 import UIKit
 
 extension SpreadsheetView: UICollectionViewDataSource {
-    fileprivate func getHeaderCellView(for indexPath: IndexPath) -> UICollectionViewCell {
-        if let presentableHeaderView {
-            let cell = valuesCollectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: presentableHeaderView.self), for: indexPath)
-            if indexPath.row > 0 {
-                (cell as? any PresentableView)?.configure(with: data.headers[indexPath.row])
-            }
-            return cell
-        } else {
-            let cell = valuesCollectionView.dequeueReusableCell(
-                withReuseIdentifier: SpreadsheetHeaderCellView.reusableIdentifier, for: indexPath)
-            if indexPath.row > 0 {
-                (cell as? any PresentableView)?.configure(with: data.headers[indexPath.row])
-            }
-            return cell
-        }
-    }
-
     fileprivate func handleFlowButtonVisible(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 300 {
             if floatingButton.isHidden {
@@ -50,20 +32,23 @@ extension SpreadsheetView: UICollectionViewDataSource {
         }
     }
 
+    fileprivate func getHeaderCellView(for indexPath: IndexPath) -> UICollectionViewCell {
+        let headerCellType: UICollectionViewCell.Type = presentableHeaderView ?? SpreadsheetHeaderCellView.self
+        let cell = headerCollectionView.dequeueReusableCell(withReuseIdentifier: String(describing: headerCellType),
+                                                            for: indexPath)
+        guard indexPath.row > 0 else { return cell }
+        (cell as? any PresentableView)?.configure(with: data.headers[indexPath.row])
+        return cell
+    }
+
     fileprivate func getValueCellView(for indexPath: IndexPath) -> UICollectionViewCell {
-        if let presentableValueView {
-            let cell = valuesCollectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: presentableValueView), for: indexPath)
-            (cell as? any PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
-            return cell
-        } else {
-            let cell = valuesCollectionView.dequeueReusableCell(
-                withReuseIdentifier: SpreadsheetCellView.reusableIdentifier, for: indexPath)
-            if indexPath.row > 0 {
-                (cell as? any PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
-            }
-            return cell
-        }
+        let valueCellType: UICollectionViewCell.Type = presentableValueView ?? SpreadsheetCellView.self
+        let cell = valuesCollectionView.dequeueReusableCell(
+            withReuseIdentifier: String(describing: valueCellType),
+            for: indexPath
+        )
+        (cell as? any PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
+        return cell
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -85,7 +70,8 @@ extension SpreadsheetView: UICollectionViewDataSource {
         return data.headers.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == headerCollectionView {
             return getHeaderCellView(for: indexPath)
         }
@@ -97,29 +83,24 @@ extension SpreadsheetView: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case Layout.SupplementaryKind.headSticky:
-            var identifier = Layout.SupplementaryKind.headSticky
-            if let presentableStickyView { identifier = String(describing: presentableStickyView.self) }
-
-            let view = collectionView.dequeueReusableSupplementaryView(
+            let cellViewType: UICollectionReusableView.Type = presentableHeaderView ?? SpreadsheetHeaderCellView.self
+            let cellView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: Layout.SupplementaryKind.headSticky,
-                withReuseIdentifier: identifier,
+                withReuseIdentifier: Layout.SupplementaryKind.headSticky,
                 for: indexPath)
-            (view as? any PresentableView)?.configure(with: "\(data.headers[indexPath.row])")
-            return view
+            (cellView as? any PresentableView)?.configure(with: "\(data.headers[safe: 0] ?? "")")
+            return cellView
 
         case Layout.SupplementaryKind.rowsSticky:
-            var identifier = Layout.SupplementaryKind.rowsSticky
-            if let presentableStickyView { identifier = String(describing: presentableStickyView.self) }
-
-            let view = collectionView.dequeueReusableSupplementaryView(
+            let cellViewType: UICollectionReusableView.Type = presentableStickyView ?? SpreadsheetStickyCellView.self
+            let cellView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: Layout.SupplementaryKind.rowsSticky,
-                withReuseIdentifier: identifier,
+                withReuseIdentifier: Layout.SupplementaryKind.rowsSticky,
                 for: indexPath)
-            (view as? any PresentableView)?.configure(with: data.values[indexPath.section][0])
-            return view
+            (cellView as? any PresentableView)?.configure(with: data.values[indexPath.section][safe: 0] ?? "")
+            return cellView
 
-        default:
-            return UICollectionReusableView()
+        default: return .init(frame: .zero)
         }
     }
 }
