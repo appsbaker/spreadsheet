@@ -1,6 +1,6 @@
 //
 //  Spreadsheet
-//  DemoHeaderCellView.swift
+//  HeaderCellView.swift
 //
 //  Created by Slava Anishchuk
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
@@ -9,9 +9,7 @@
 import UIKit
 import SnapKit
 
-final class DemoHeaderCellView: UICollectionViewCell, PresentableView {
-    typealias T = String
-
+final class HeaderViewCell: UICollectionViewCell, PresentableView {
     var textLabel = UILabel(frame: .zero)
 
     override init(frame: CGRect) {
@@ -36,7 +34,18 @@ final class DemoHeaderCellView: UICollectionViewCell, PresentableView {
         textLabel.textColor = .red
     }
 
-    func configure(with value: Any) {
+    func configure(with value: PresentableValue) {
+        value.accept(presenter: self)
+    }
+}
+
+extension HeaderViewCell: ValuePresenter {
+    func present(value: any Numeric) {
         textLabel.text = "\(value)"
+    }
+
+    func present(value: String) {
+        textLabel.font = .systemFont(ofSize: 12)
+        textLabel.text = value
     }
 }

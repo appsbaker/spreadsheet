@@ -1,6 +1,6 @@
 //
 //  Spreadsheet
-//  DemoStickyView.swift
+//  StickyView.swift
 //
 //  Created by Slava Anishchuk
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
@@ -9,17 +9,7 @@
 import UIKit
 import SnapKit
 
-
-public class StickyValue {
-    let title: String
-    let subtitle: String
-    init(title: String, subtitle: String) {
-        self.title = title
-        self.subtitle = subtitle
-    }
-}
-
-final class DemoStickyView: UICollectionViewCell, PresentableView {
+final class StickyViewCell: UICollectionViewCell, PresentableView {
     private var titleLabel = UILabel(frame: .zero)
     private var subtitleLabel = UILabel(frame: .zero)
 
@@ -58,12 +48,20 @@ final class DemoStickyView: UICollectionViewCell, PresentableView {
         }
     }
 
-    func configure(with value: Any) {
-        if let value = value as? StickyValue {
-            titleLabel.text = value.title
-            subtitleLabel.text = value.subtitle
-        } else {
-            titleLabel.text = "\(value)"
-        }
+    func configure(with value: PresentableValue) {
+        value.accept(presenter: self)
+    }
+}
+
+
+extension StickyViewCell: ValuePresenter {
+    func present(value: any Numeric) {
+        debugPrint("\(value)")
+        titleLabel.text = "\(value)"
+    }
+
+    func present(value: String) {
+        titleLabel.font = .systemFont(ofSize: 12)
+        titleLabel.text = value
     }
 }

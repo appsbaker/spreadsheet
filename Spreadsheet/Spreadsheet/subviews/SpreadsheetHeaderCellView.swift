@@ -30,7 +30,19 @@ final class SpreadsheetHeaderCellView: UICollectionViewCell, PresentableView {
         }
     }
 
-    func configure(with value: Any) {
+    func configure(with value: PresentableValue) {
+        value.accept(visitor: self)
+    }
+}
+
+extension SpreadsheetHeaderCellView: VisitorBase {
+    func visit(value: String) {
+        textLabel.text = value
+    }
+    func visit(value: StickyValue) {
+        textLabel.text = value.presentableValue.title
+    }
+    func visit(value: any Numeric) {
         textLabel.text = "\(value)"
     }
 }

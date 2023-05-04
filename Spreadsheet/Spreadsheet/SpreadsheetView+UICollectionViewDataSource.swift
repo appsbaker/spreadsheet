@@ -83,21 +83,23 @@ extension SpreadsheetView: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case Layout.SupplementaryKind.headSticky:
-            let cellViewType: UICollectionReusableView.Type = presentableHeaderView ?? SpreadsheetHeaderCellView.self
             let cellView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: Layout.SupplementaryKind.headSticky,
                 withReuseIdentifier: Layout.SupplementaryKind.headSticky,
                 for: indexPath)
-            (cellView as? any PresentableView)?.configure(with: "\(data.headers[safe: 0] ?? "")")
+            if let value = data.headers[safe: 0] {
+                (cellView as? any PresentableView)?.configure(with: value)
+            }
             return cellView
 
         case Layout.SupplementaryKind.rowsSticky:
-            let cellViewType: UICollectionReusableView.Type = presentableStickyView ?? SpreadsheetStickyCellView.self
             let cellView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: Layout.SupplementaryKind.rowsSticky,
                 withReuseIdentifier: Layout.SupplementaryKind.rowsSticky,
                 for: indexPath)
-            (cellView as? any PresentableView)?.configure(with: data.values[indexPath.section][safe: 0] ?? "")
+            if let value = data.values[indexPath.section][safe: 0] {
+                (cellView as? any PresentableView)?.configure(with: value)
+            }
             return cellView
 
         default: return .init(frame: .zero)

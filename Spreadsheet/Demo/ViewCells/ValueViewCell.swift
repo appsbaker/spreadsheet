@@ -1,6 +1,6 @@
 //
 //  Spreadsheet
-//  DemoValueCellView.swift
+//  ValueCellView.swift
 //
 //  Created by Slava Anishchuk
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-final class DemoValueCellView: UICollectionViewCell, PresentableView {
+final class ValueViewCell: UICollectionViewCell, PresentableView {
     var textLabel = UILabel(frame: .zero)
 
     override init(frame: CGRect) {
@@ -24,8 +24,18 @@ final class DemoValueCellView: UICollectionViewCell, PresentableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with value: Any) {
+    func configure(with value: PresentableValue) {
+        value.accept(presenter: self)
+    }
+}
+
+extension ValueViewCell: ValuePresenter {
+    func present(value: any Numeric) {
         textLabel.text = "\(value)"
-        textLabel.font = .systemFont(ofSize: 10)
+    }
+
+    func present(value: String) {
+        textLabel.font = .systemFont(ofSize: 12)
+        textLabel.text = value
     }
 }

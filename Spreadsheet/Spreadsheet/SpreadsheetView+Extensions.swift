@@ -7,7 +7,7 @@
 //
 
 protocol PresentableView {
-    func configure(with value: any PresentableValue)
+    func configure(with value: PresentableValue)
 }
 
 protocol PresentableValue {

@@ -27,8 +27,12 @@ final class SpreadsheetCellView: UICollectionViewCell, PresentableView {
         }
     }
 
-    func configure(with value: Any) {
-        textLabel.text = "\(value)"
-        contentView.backgroundColor = .white
+    func configure(with value: any PresentableValue) {
+        value.accept(visitor: self)
     }
+}
+
+extension SpreadsheetCellView: VisitorBase {
+    func visit(value: String) {}
+    func visit(value: any Numeric) {}
 }

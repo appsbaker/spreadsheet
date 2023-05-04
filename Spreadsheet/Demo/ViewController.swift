@@ -10,20 +10,25 @@
 import UIKit
 import SnapKit
 
+struct User: PresentableValue {
+    let name: String
+    func accept(visitor: VisitorBase) {
+        (visitor as? ClientVisitor)?.visit(value: self)
+    }
+}
+
 final class ViewController: UIViewController {
     private var datatable: SpreadsheetData = .init(datatable: [
         ["Акции",    "Цена",  "Изменение", "Страна бизнеса", "Сектор экономики"],
-        ["Сбербанк", 239.29,  120.456,     "Россия",         "Финансы"],
-        ["Тинькоф",  362.29,  32.10,       "Россия",         "Финансы"],
+        [StickyValue(title: "Сбербанк", subtitle: ""), 239.29,  120.456,     "Россия",         "Финансы"],
+        ["Тинькоф",  User(name: "Slava"),  32.10,       "Россия",         "Финансы"],
         ["Ozon",     1362.29, -12.30,      "Россия",         "IT"],
-        ["ВТБ", 1.230229,  120.456,     "Россия",         "Финансы"],
+        ["ВТБ", 1.230229,  120.456,     "Россия",         true],
     ])
 
     lazy var spreadsheetView: SpreadsheetView = .init(
         data: datatable,
-        presentableValueView: DemoValueCellView.self,
-        presentableHeaderView: DemoHeaderCellView.self,
-        presentableStickyView: DemoStickyView.self
+        presentableValueView: DemoValueCellView.self
     )
 
     override func viewDidLoad() {

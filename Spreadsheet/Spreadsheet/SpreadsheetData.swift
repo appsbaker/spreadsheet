@@ -7,18 +7,18 @@
 //
 
 struct SpreadsheetData {
-    private(set) var headers: [String] = []
-    private(set) var values: [[Any]] = []
+    private(set) var headers: [any PresentableValue] = []
+    private(set) var values: [[any PresentableValue]] = []
 
-    init(datatable: [[Any]]) {
+    init(datatable: [[any PresentableValue]]) {
         if !datatable.isEmpty {
             var datatable = datatable
-            self.headers = datatable.removeFirst().map { "\($0)" }
-            self.values = datatable
+            headers = datatable.removeFirst().map { $0 }
+            values = datatable
         }
     }
 
-    mutating func append(value: [Any]) {
+    mutating func append(value: [any PresentableValue]) {
         values.append(value)
     }
 
