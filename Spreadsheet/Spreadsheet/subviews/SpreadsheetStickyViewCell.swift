@@ -1,6 +1,6 @@
 //
 //  Spreadsheet
-//  SpreadsheetStickyCellView.swift
+//  SpreadsheetStickyViewCell.swift
 //
 //  Created by Slava Anishchuk
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-final class SpreadsheetStickyCellView: UICollectionReusableView, PresentableView {
+final class SpreadsheetStickyViewCell: UICollectionReusableView, PresentableView {
     private var stackView = UIStackView(frame: .zero)
     private var textLabel = UILabel(frame: .zero)
 
@@ -38,7 +38,7 @@ final class SpreadsheetStickyCellView: UICollectionReusableView, PresentableView
 }
 
 
-extension SpreadsheetStickyCellView: ValuePresenter {
+extension SpreadsheetStickyViewCell: ValuePresenter {
     func present(value: String) {
         textLabel.text = value
     }

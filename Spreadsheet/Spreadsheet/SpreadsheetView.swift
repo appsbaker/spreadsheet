@@ -97,17 +97,17 @@ final class SpreadsheetView: UIView {
     }
 
     private func registerViewCells() {
-        let headerCellType: UICollectionViewCell.Type = presentableHeaderView ?? SpreadsheetHeaderCellView.self
+        let headerCellType: UICollectionViewCell.Type = presentableHeaderView ?? SpreadsheetHeaderViewCell.self
         headerCollectionView.register(headerCellType,
                                       forCellWithReuseIdentifier: String(describing: headerCellType))
         headerCollectionView.register(headerCellType,
                                       forSupplementaryViewOfKind: Layout.SupplementaryKind.headSticky,
                                       withReuseIdentifier: Layout.SupplementaryKind.headSticky)
 
-        let valueCellType = presentableValueView ?? SpreadsheetCellView.self
+        let valueCellType = presentableValueView ?? SpreadsheetViewCell.self
         valuesCollectionView.register(valueCellType,
                                       forCellWithReuseIdentifier: String(describing: valueCellType))
-        let valueStickyView = presentableStickyView ?? SpreadsheetStickyCellView.self
+        let valueStickyView = presentableStickyView ?? SpreadsheetStickyViewCell.self
         valuesCollectionView.register(valueStickyView,
                                       forSupplementaryViewOfKind: Layout.SupplementaryKind.rowsSticky,
                                       withReuseIdentifier: Layout.SupplementaryKind.rowsSticky)

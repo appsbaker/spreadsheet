@@ -1,6 +1,6 @@
 //
 //  Spreadsheet
-//  SpreadsheetCellView.swift
+//  SpreadsheetHeaderViewCell.swift
 //
 //  Created by Slava Anishchuk
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
@@ -9,8 +9,9 @@
 import UIKit
 import SnapKit
 
-final class SpreadsheetCellView: UICollectionViewCell, PresentableView {
+final class SpreadsheetHeaderViewCell: UICollectionViewCell, PresentableView {
     private var textLabel = UILabel(frame: .zero)
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewAndConstraints()
@@ -22,6 +23,8 @@ final class SpreadsheetCellView: UICollectionViewCell, PresentableView {
 
     private func setupViewAndConstraints() {
         contentView.addSubview(textLabel)
+        contentView.backgroundColor = .white
+        textLabel.font = .systemFont(ofSize: 12, weight: .bold)
         textLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -32,7 +35,12 @@ final class SpreadsheetCellView: UICollectionViewCell, PresentableView {
     }
 }
 
-extension SpreadsheetCellView: ValuePresenter {
-    func present(value: String) {}
-    func present(value: any Numeric) {}
+extension SpreadsheetHeaderViewCell: ValuePresenter {
+    func present(value: String) {
+        textLabel.text = value
+    }
+
+    func present(value: any Numeric) {
+        textLabel.text = "\(value)"
+    }
 }

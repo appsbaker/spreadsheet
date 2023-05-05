@@ -33,7 +33,7 @@ extension SpreadsheetView: UICollectionViewDataSource {
     }
 
     fileprivate func getHeaderCellView(for indexPath: IndexPath) -> UICollectionViewCell {
-        let headerCellType: UICollectionViewCell.Type = presentableHeaderView ?? SpreadsheetHeaderCellView.self
+        let headerCellType: UICollectionViewCell.Type = presentableHeaderView ?? SpreadsheetHeaderViewCell.self
         let cell = headerCollectionView.dequeueReusableCell(withReuseIdentifier: String(describing: headerCellType),
                                                             for: indexPath)
         guard indexPath.row > 0 else { return cell }
@@ -42,7 +42,7 @@ extension SpreadsheetView: UICollectionViewDataSource {
     }
 
     fileprivate func getValueCellView(for indexPath: IndexPath) -> UICollectionViewCell {
-        let valueCellType: UICollectionViewCell.Type = presentableValueView ?? SpreadsheetCellView.self
+        let valueCellType: UICollectionViewCell.Type = presentableValueView ?? SpreadsheetViewCell.self
         let cell = valuesCollectionView.dequeueReusableCell(
             withReuseIdentifier: String(describing: valueCellType),
             for: indexPath
