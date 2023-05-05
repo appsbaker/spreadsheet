@@ -6,15 +6,15 @@
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
 //
 
-protocol PresentableView {
-    func configure(with value: any PresentableValue)
+protocol ValuePresenter {
+    func present(value: String)
+    func present(value: any Numeric)
 }
 
 protocol PresentableValue {
-    func accept(visitor: VisitorBase)
+    func accept(presenter: ValuePresenter)
 }
 
-protocol VisitorBase {
-    func visit(value: String)
-    func visit(value: any Numeric)
+protocol PresentableView {
+    func configure(with value: PresentableValue)
 }

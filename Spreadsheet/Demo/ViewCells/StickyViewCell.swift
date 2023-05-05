@@ -1,6 +1,6 @@
 //
 //  Spreadsheet
-//  StickyView.swift
+//  StickyViewCell.swift
 //
 //  Created by Slava Anishchuk
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
@@ -63,5 +63,12 @@ extension StickyViewCell: ValuePresenter {
     func present(value: String) {
         titleLabel.font = .systemFont(ofSize: 12)
         titleLabel.text = value
+    }
+}
+
+extension StickyViewCell: StickyValuePresenter {
+    func present(value: StickyValue) {
+        titleLabel.text = value.title
+        subtitleLabel.text = value.subtitle
     }
 }

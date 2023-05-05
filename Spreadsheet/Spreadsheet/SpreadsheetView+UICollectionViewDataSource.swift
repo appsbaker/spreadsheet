@@ -37,7 +37,7 @@ extension SpreadsheetView: UICollectionViewDataSource {
         let cell = headerCollectionView.dequeueReusableCell(withReuseIdentifier: String(describing: headerCellType),
                                                             for: indexPath)
         guard indexPath.row > 0 else { return cell }
-        (cell as? any PresentableView)?.configure(with: data.headers[indexPath.row])
+        (cell as? PresentableView)?.configure(with: data.headers[indexPath.row])
         return cell
     }
 
@@ -47,7 +47,7 @@ extension SpreadsheetView: UICollectionViewDataSource {
             withReuseIdentifier: String(describing: valueCellType),
             for: indexPath
         )
-        (cell as? any PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
+        (cell as? PresentableView)?.configure(with: data.values[indexPath.section][indexPath.row])
         return cell
     }
 
@@ -88,7 +88,7 @@ extension SpreadsheetView: UICollectionViewDataSource {
                 withReuseIdentifier: Layout.SupplementaryKind.headSticky,
                 for: indexPath)
             if let value = data.headers[safe: 0] {
-                (cellView as? any PresentableView)?.configure(with: value)
+                (cellView as? PresentableView)?.configure(with: value)
             }
             return cellView
 
@@ -98,11 +98,11 @@ extension SpreadsheetView: UICollectionViewDataSource {
                 withReuseIdentifier: Layout.SupplementaryKind.rowsSticky,
                 for: indexPath)
             if let value = data.values[indexPath.section][safe: 0] {
-                (cellView as? any PresentableView)?.configure(with: value)
+                (cellView as? PresentableView)?.configure(with: value)
             }
             return cellView
-
-        default: return .init(frame: .zero)
+        default:
+            return .init(frame: .zero)
         }
     }
 }

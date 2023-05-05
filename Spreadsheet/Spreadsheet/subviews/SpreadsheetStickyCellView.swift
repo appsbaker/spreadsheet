@@ -32,21 +32,17 @@ final class SpreadsheetStickyCellView: UICollectionReusableView, PresentableView
         stackView.addArrangedSubview(textLabel)
     }
 
-    func configure(with value: any PresentableValue) {
-        value.accept(visitor: self)
+    func configure(with value: PresentableValue) {
+        value.accept(presenter: self)
     }
 }
 
 
-extension SpreadsheetStickyCellView: VisitorBase {
-    func visit(value: String) {
+extension SpreadsheetStickyCellView: ValuePresenter {
+    func present(value: String) {
         textLabel.text = value
     }
-    func visit(value: StickyValue) {
-        textLabel.text = value.presentableValue.title
-    }
-    func visit(value: any Numeric) {
+    func present(value: any Numeric) {
         textLabel.text = "\(value)"
     }
 }
-

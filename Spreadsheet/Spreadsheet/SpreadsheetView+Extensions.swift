@@ -1,20 +1,25 @@
 //
 //  Spreadsheet
-//  SpreadsheetView+Protocols.swift
+//  SpreadsheetView+Extensions.swift
 //
 //  Created by Slava Anishchuk
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
 //
 
-protocol PresentableView {
-    func configure(with value: PresentableValue)
+extension String: PresentableValue {
+    func accept(presenter: ValuePresenter) {
+        presenter.present(value: self)
+    }
 }
 
-protocol PresentableValue {
-    func accept(visitor: VisitorBase)
+extension Int: PresentableValue {
+    func accept(presenter: ValuePresenter) {
+        presenter.present(value: self)
+    }
 }
 
-protocol VisitorBase {
-    func visit(value: String)
-    func visit(value: any Numeric)
+extension Double: PresentableValue {
+    func accept(presenter: ValuePresenter) {
+        presenter.present(value: self)
+    }
 }

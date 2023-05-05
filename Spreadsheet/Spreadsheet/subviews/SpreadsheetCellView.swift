@@ -27,12 +27,12 @@ final class SpreadsheetCellView: UICollectionViewCell, PresentableView {
         }
     }
 
-    func configure(with value: any PresentableValue) {
-        value.accept(visitor: self)
+    func configure(with value: PresentableValue) {
+        value.accept(presenter: self)
     }
 }
 
-extension SpreadsheetCellView: VisitorBase {
-    func visit(value: String) {}
-    func visit(value: any Numeric) {}
+extension SpreadsheetCellView: ValuePresenter {
+    func present(value: String) {}
+    func present(value: any Numeric) {}
 }
