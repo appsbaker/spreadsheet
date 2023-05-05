@@ -146,7 +146,7 @@ final class SpreadsheetView: UIView {
                                                  supplementaryKind: Layout.SupplementaryKind.rowsSticky)
     }
 
-    func appendValues(values: [any PresentableValue]) {
+    func appendValues(values: [PresentableValue]) {
         data.append(value: values)
     }
 
