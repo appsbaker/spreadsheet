@@ -49,25 +49,28 @@ final class StickyViewCell: UICollectionViewCell, PresentableView {
     }
 
     func configure(with value: PresentableValue) {
-        value.accept(presenter: self)
+        value.accept(visitor: self)
     }
 }
 
 
-extension StickyViewCell: ValuePresenter {
-    func present(value: any Numeric) {
-        debugPrint("\(value)")
+extension StickyViewCell: ValueVisitor {
+    func visit(value: Bool) {
+        titleLabel.text = value ? "Yes" : "No"
+    }
+
+    func visit(value: any Numeric) {
         titleLabel.text = "\(value)"
     }
 
-    func present(value: String) {
+    func visit(value: String) {
         titleLabel.font = .systemFont(ofSize: 12)
         titleLabel.text = value
     }
 }
 
-extension StickyViewCell: StickyValuePresenter {
-    func present(value: StickyValue) {
+extension StickyViewCell: StickyValueVisitor {
+    func visit(value: StickyValue) {
         titleLabel.text = value.title
         subtitleLabel.text = value.subtitle
     }

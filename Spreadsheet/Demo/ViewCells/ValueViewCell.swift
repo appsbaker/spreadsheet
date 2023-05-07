@@ -25,17 +25,22 @@ final class ValueViewCell: UICollectionViewCell, PresentableView {
     }
 
     func configure(with value: PresentableValue) {
-        value.accept(presenter: self)
+        value.accept(visitor: self)
     }
 }
 
-extension ValueViewCell: ValuePresenter {
-    func present(value: any Numeric) {
+extension ValueViewCell: ValueVisitor {
+    func visit(value: any Numeric) {
         textLabel.text = "\(value)"
     }
 
-    func present(value: String) {
+    func visit(value: String) {
         textLabel.font = .systemFont(ofSize: 12)
         textLabel.text = value
+    }
+
+    func visit(value: Bool) {
+        textLabel.text = value ? "Yes" : "No"
+        textLabel.textColor = value ? .green : .red
     }
 }

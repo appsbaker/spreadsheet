@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 final class SpreadsheetViewCell: UICollectionViewCell, PresentableView {
-    private var textLabel = UILabel(frame: .zero)
+    var textLabel = UILabel(frame: .zero)
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewAndConstraints()
@@ -28,11 +28,20 @@ final class SpreadsheetViewCell: UICollectionViewCell, PresentableView {
     }
 
     func configure(with value: PresentableValue) {
-        value.accept(presenter: self)
+        value.accept(visitor: self)
     }
 }
 
-extension SpreadsheetViewCell: ValuePresenter {
-    func present(value: String) {}
-    func present(value: any Numeric) {}
+extension SpreadsheetViewCell: ValueVisitor {
+    func visit(value: String) {
+        textLabel.text = value
+    }
+
+    func visit(value: Bool) {
+        textLabel.text = value ? "Yes" : "No"
+    }
+
+    func visit(value: any Numeric) {
+        textLabel.text = "\(value)"
+    }
 }

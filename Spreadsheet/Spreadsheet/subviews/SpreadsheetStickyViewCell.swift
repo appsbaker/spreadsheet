@@ -33,16 +33,21 @@ final class SpreadsheetStickyViewCell: UICollectionReusableView, PresentableView
     }
 
     func configure(with value: PresentableValue) {
-        value.accept(presenter: self)
+        value.accept(visitor: self)
     }
 }
 
 
-extension SpreadsheetStickyViewCell: ValuePresenter {
-    func present(value: String) {
+extension SpreadsheetStickyViewCell: ValueVisitor {
+    func visit(value: String) {
         textLabel.text = value
     }
-    func present(value: any Numeric) {
+
+    func visit(value: any Numeric) {
         textLabel.text = "\(value)"
+    }
+
+    func visit(value: Bool) {
+        textLabel.text = value ? "Yes" : "No"
     }
 }

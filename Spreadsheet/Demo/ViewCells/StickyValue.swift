@@ -6,15 +6,15 @@
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
 //
 
+protocol StickyValueVisitor {
+    func visit(value: StickyValue)
+}
+
 struct StickyValue: PresentableValue {
     let title: String
     let subtitle: String
 
-    func accept(presenter: ValuePresenter) {
-        (presenter as? StickyValuePresenter)?.present(value: self)
+    func accept(visitor: ValueVisitor) {
+        (visitor as? StickyValueVisitor)?.visit(value: self)
     }
-}
-
-protocol StickyValuePresenter {
-    func present(value: StickyValue)
 }

@@ -7,19 +7,25 @@
 //
 
 extension String: PresentableValue {
-    func accept(presenter: ValuePresenter) {
-        presenter.present(value: self)
+    func accept(visitor: ValueVisitor) {
+        visitor.visit(value: self)
     }
 }
 
 extension Int: PresentableValue {
-    func accept(presenter: ValuePresenter) {
-        presenter.present(value: self)
+    func accept(visitor: ValueVisitor) {
+        visitor.visit(value: self)
     }
 }
 
 extension Double: PresentableValue {
-    func accept(presenter: ValuePresenter) {
-        presenter.present(value: self)
+    func accept(visitor: ValueVisitor) {
+        visitor.visit(value: self)
+    }
+}
+
+extension Bool: PresentableValue {
+    func accept(visitor: ValueVisitor) {
+        visitor.visit(value: self)
     }
 }

@@ -6,13 +6,14 @@
 //  Copyright © 2023 Slava Anishchuk. All rights reserved.
 //
 
-protocol ValuePresenter {
-    func present(value: String)
-    func present(value: any Numeric)
+protocol ValueVisitor {
+    func visit(value: Bool)
+    func visit(value: String)
+    func visit(value: any Numeric)
 }
 
 protocol PresentableValue {
-    func accept(presenter: ValuePresenter)
+    func accept(visitor: ValueVisitor)
 }
 
 protocol PresentableView {

@@ -31,16 +31,20 @@ final class SpreadsheetHeaderViewCell: UICollectionViewCell, PresentableView {
     }
 
     func configure(with value: PresentableValue) {
-        value.accept(presenter: self)
+        value.accept(visitor: self)
     }
 }
 
-extension SpreadsheetHeaderViewCell: ValuePresenter {
-    func present(value: String) {
+extension SpreadsheetHeaderViewCell: ValueVisitor {
+    func visit(value: Bool) {
+        textLabel.text = value ? "Yes" : "No"
+    }
+
+    func visit(value: String) {
         textLabel.text = value
     }
 
-    func present(value: any Numeric) {
+    func visit(value: any Numeric) {
         textLabel.text = "\(value)"
     }
 }

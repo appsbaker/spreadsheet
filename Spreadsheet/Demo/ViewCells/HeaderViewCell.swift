@@ -35,16 +35,20 @@ final class HeaderViewCell: UICollectionViewCell, PresentableView {
     }
 
     func configure(with value: PresentableValue) {
-        value.accept(presenter: self)
+        value.accept(visitor: self)
     }
 }
 
-extension HeaderViewCell: ValuePresenter {
-    func present(value: any Numeric) {
+extension HeaderViewCell: ValueVisitor {
+    func visit(value: any Numeric) {
         textLabel.text = "\(value)"
     }
 
-    func present(value: String) {
+    func visit(value: Bool) {
+        textLabel.text = value ? "Yes" : "No"
+    }
+
+    func visit(value: String) {
         textLabel.font = .systemFont(ofSize: 12)
         textLabel.text = value
     }
